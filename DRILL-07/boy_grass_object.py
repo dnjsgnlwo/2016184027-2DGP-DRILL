@@ -5,9 +5,24 @@ import random
 class SBall:
     def __init__(self):
         self.x, self.y = random.randint(100, 700), 599
-        self.frame = random.randint(0,7)
+        self.frame = random.randint(0,10)
         self.image = load_image('ball21x21.png')
-        self.speed = random.randint(1, 6)
+        self.speed = random.randint(1, 10)
+
+    def update(self):
+        self.frame = (self.frame + 1) % 8
+        self.y -= self.speed
+
+    def draw(self):
+        self.image.draw(self.x, self.y)
+
+
+class BBall:
+    def __init__(self):
+        self.x, self.y = random.randint(100, 700), 599
+        self.frame = random.randint(0,10)
+        self.image = load_image('ball41x41.png')
+        self.speed = random.randint(1, 10)
 
     def update(self):
         self.frame = (self.frame + 1) % 8
@@ -55,6 +70,7 @@ count = random.randint(1, 19)
 grass = Grass()
 team = [Boy() for i in range(11)]
 sball = [SBall() for i in range(count)]
+bball = [BBall() for i in range(20-count)]
 
 running = True
 
@@ -67,6 +83,9 @@ while running:
     for sb in sball:
         sb.update()
 
+    for bb in bball:
+        bb.update()
+
     clear_canvas()
     grass.draw()
     for boy in team:
@@ -75,6 +94,8 @@ while running:
     for sb in sball:
         sb.draw()
 
+    for bb in bball:
+        bb.draw()
     update_canvas()
 
     delay(0.05)
