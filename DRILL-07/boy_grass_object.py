@@ -2,6 +2,21 @@ from pico2d import *
 import random
 
 
+class SBall:
+    def __init__(self):
+        self.x, self.y = random.randint(100, 700), 599
+        self.frame = random.randint(0,7)
+        self.image = load_image('ball21x21.png')
+        self.speed = random.randint(1, 6)
+
+    def update(self):
+        self.frame = (self.frame + 1) % 8
+        self.y -= self.speed
+
+    def draw(self):
+        self.image.draw(self.x, self.y)
+
+
 class Grass:
     def __init__(self):
         self.image = load_image('grass.png')
@@ -39,6 +54,7 @@ open_canvas()
 count = random.randint(1, 19)
 grass = Grass()
 team = [Boy() for i in range(11)]
+sball = [SBall() for i in range(count)]
 
 running = True
 
@@ -48,10 +64,16 @@ while running:
     for boy in team:
         boy.update()
 
+    for sb in sball:
+        sb.update()
+
     clear_canvas()
     grass.draw()
     for boy in team:
         boy.draw()
+
+    for sb in sball:
+        sb.draw()
 
     update_canvas()
 
